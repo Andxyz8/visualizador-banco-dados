@@ -92,6 +92,7 @@ public class BancoDados {
      * @return Status da conexão com o BD.
      */
     public boolean isActive() {
+        int a = 1;
         return this.active;
     }
     
