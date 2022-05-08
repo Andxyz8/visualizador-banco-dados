@@ -7,7 +7,7 @@ import gui.Conexao;
  * @author Anderson
  */
 public class Principal {
-
+    int a = 1;
     /**
      * Método principal de execução do programa.
      * 
