@@ -5,6 +5,10 @@
 package gui;
 
 import db.BancoDados;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeSelectionModel;
 
 /**
  * Esta classe permite visualizar a estrutura do banco de dados através de uma
@@ -20,7 +24,18 @@ public class Visualizador extends javax.swing.JFrame {
      * Creates new form Visualizador
      */
     public Visualizador() {
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Root Node");
+        DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
+
+        
         initComponents();
+        
+        jTree1 = new JTree(rootNode);
+        
+        jTree1.setEditable(true);
+        jTree1.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        jTree1.setShowsRootHandles(true);
+        jScrollPane1.setViewportView(jTree1);
     }
 
     /**
@@ -53,28 +68,58 @@ public class Visualizador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel5 = new javax.swing.JLabel();
+        jLabelArvore = new javax.swing.JLabel();
+        jPanelArvore = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTree1 = new javax.swing.JTree();
+        jLabelQuery = new javax.swing.JLabel();
+        jScrollPaneQuery = new javax.swing.JScrollPane();
+        jTextAreaQuery = new javax.swing.JTextArea();
+        jLabelTabela = new javax.swing.JLabel();
+        jPanelTabela = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanelLogQuerys = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabelNomeBanco = new javax.swing.JLabel();
-        jPanelLogStatus = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-
-        jLabel5.setText("jLabel5");
+        jLabelStatus = new javax.swing.JLabel();
+        jPanelStatus = new javax.swing.JPanel();
+        jLabelQueryLog = new javax.swing.JLabel();
+        jPanelQueryLog = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jLabelArvore.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabelArvore.setText("Árvore de Componentes");
+
+        jPanelArvore.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jScrollPane1.setViewportView(jTree1);
+
+        javax.swing.GroupLayout jPanelArvoreLayout = new javax.swing.GroupLayout(jPanelArvore);
+        jPanelArvore.setLayout(jPanelArvoreLayout);
+        jPanelArvoreLayout.setHorizontalGroup(
+            jPanelArvoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelArvoreLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanelArvoreLayout.setVerticalGroup(
+            jPanelArvoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelArvoreLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jLabelQuery.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabelQuery.setText("Digite suas queries neste espaço.");
+
+        jTextAreaQuery.setColumns(20);
+        jTextAreaQuery.setRows(5);
+        jScrollPaneQuery.setViewportView(jTextAreaQuery);
+
+        jLabelTabela.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabelTabela.setText("Resultados das querys realizadas");
+
+        jPanelTabela.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -89,48 +134,59 @@ public class Visualizador extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        jScrollPane3.setViewportView(jTree1);
+        javax.swing.GroupLayout jPanelTabelaLayout = new javax.swing.GroupLayout(jPanelTabela);
+        jPanelTabela.setLayout(jPanelTabelaLayout);
+        jPanelTabelaLayout.setHorizontalGroup(
+            jPanelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTabelaLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanelTabelaLayout.setVerticalGroup(
+            jPanelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTabelaLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setText("Digite suas queries neste espaço.");
+        jLabelStatus.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        jLabelStatus.setText("Log de status da conexão");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("Resultados das querys realizadas");
+        jPanelStatus.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jPanelLogQuerys.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanelLogQuerysLayout = new javax.swing.GroupLayout(jPanelLogQuerys);
-        jPanelLogQuerys.setLayout(jPanelLogQuerysLayout);
-        jPanelLogQuerysLayout.setHorizontalGroup(
-            jPanelLogQuerysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanelStatusLayout = new javax.swing.GroupLayout(jPanelStatus);
+        jPanelStatus.setLayout(jPanelStatusLayout);
+        jPanelStatusLayout.setHorizontalGroup(
+            jPanelStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanelLogQuerysLayout.setVerticalGroup(
-            jPanelLogQuerysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanelStatusLayout.setVerticalGroup(
+            jPanelStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jLabelQueryLog.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        jLabelQueryLog.setText("Log de Informações da execução de querys");
+
+        jPanelQueryLog.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPanelQueryLogLayout = new javax.swing.GroupLayout(jPanelQueryLog);
+        jPanelQueryLog.setLayout(jPanelQueryLogLayout);
+        jPanelQueryLogLayout.setHorizontalGroup(
+            jPanelQueryLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanelQueryLogLayout.setVerticalGroup(
+            jPanelQueryLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 66, Short.MAX_VALUE)
         );
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel3.setText("Log de Informações da execução de querys");
-
-        jLabelNomeBanco.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabelNomeBanco.setText("Árvore de Componentes");
-
-        jPanelLogStatus.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanelLogStatusLayout = new javax.swing.GroupLayout(jPanelLogStatus);
-        jPanelLogStatus.setLayout(jPanelLogStatusLayout);
-        jPanelLogStatusLayout.setHorizontalGroup(
-            jPanelLogStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanelLogStatusLayout.setVerticalGroup(
-            jPanelLogStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jLabel4.setText("Log de status da conexão");
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,22 +194,24 @@ public class Visualizador extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-                        .addComponent(jLabelNomeBanco)
-                        .addComponent(jPanelLogStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel4))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelArvore)
+                    .addComponent(jPanelStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelStatus)
+                    .addComponent(jPanelArvore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanelLogQuerys, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneQuery)
+                    .addComponent(jPanelQueryLog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1))
+                            .addComponent(jLabelTabela)
+                            .addComponent(jLabelQueryLog)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelQuery)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -162,25 +220,26 @@ public class Visualizador extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabelNomeBanco))
+                    .addComponent(jLabelQuery)
+                    .addComponent(jLabelArvore)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPaneQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
+                        .addComponent(jLabelTabela)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE))
+                        .addComponent(jPanelTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelArvore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabelQueryLog)
+                    .addComponent(jLabelStatus))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelLogQuerys, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelLogStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelQueryLog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(8, 8, 8))
         );
 
@@ -188,56 +247,28 @@ public class Visualizador extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Visualizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Visualizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Visualizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Visualizador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Visualizador().setVisible(true);
-            }
-        });
-    }
-
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabelNomeBanco;
-    private javax.swing.JPanel jPanelLogQuerys;
-    private javax.swing.JPanel jPanelLogStatus;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabelArvore;
+    private javax.swing.JLabel jLabelQuery;
+    private javax.swing.JLabel jLabelQueryLog;
+    private javax.swing.JLabel jLabelStatus;
+    private javax.swing.JLabel jLabelTabela;
+    private javax.swing.JPanel jPanelArvore;
+    private javax.swing.JPanel jPanelQueryLog;
+    private javax.swing.JPanel jPanelStatus;
+    private javax.swing.JPanel jPanelTabela;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPaneQuery;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextAreaQuery;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }
