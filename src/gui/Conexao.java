@@ -52,6 +52,8 @@ public class Conexao extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldNomeBanco.setText("world");
+
         jRadioButtonMySQL.setText("MySQL");
         jRadioButtonMySQL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,7 +68,11 @@ public class Conexao extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldUsuario.setText("root");
+
         jLabelUsuario.setText("Usuário:");
+
+        jPasswordFieldSenha.setText("1234");
 
         jLabelSenha.setText("Senha:");
 
@@ -139,6 +145,7 @@ public class Conexao extends javax.swing.JFrame {
 
     private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
         this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     private void jButtonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConectarActionPerformed

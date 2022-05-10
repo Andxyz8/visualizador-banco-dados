@@ -105,6 +105,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldNomeBanco">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="world"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="jRadioButtonMySQL">
       <Properties>
@@ -123,6 +126,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldUsuario">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="root"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelUsuario">
       <Properties>
@@ -130,6 +136,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordFieldSenha">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="1234"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelSenha">
       <Properties>

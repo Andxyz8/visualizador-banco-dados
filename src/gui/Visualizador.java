@@ -5,9 +5,11 @@
 package gui;
 
 import db.BancoDados;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
@@ -24,18 +26,7 @@ public class Visualizador extends javax.swing.JFrame {
      * Creates new form Visualizador
      */
     public Visualizador() {
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Root Node");
-        DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
-
-        
         initComponents();
-        
-        jTree1 = new JTree(rootNode);
-        
-        jTree1.setEditable(true);
-        jTree1.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        jTree1.setShowsRootHandles(true);
-        jScrollPane1.setViewportView(jTree1);
     }
 
     /**
@@ -56,7 +47,40 @@ public class Visualizador extends javax.swing.JFrame {
      */
     private void setInfoBanco() {
         this.setTitle(this.banco.getNomeBanco());
-        
+        geraArvoreEstrutura();
+
+    }
+
+    /**
+     *
+     */
+    private void geraArvoreEstrutura() {
+        JTree arvore = new JTree(banco.getArvoreEstrutura());
+        arvore.setEditable(false);
+        arvore.setShowsRootHandles(true);
+        jScrollPaneArvore.setViewportView(arvore);
+    }
+
+    /**
+     *
+     */
+    private void geraTabelaConsulta() {
+        JTable tabela = new JTable();
+        TableColumn tc = new TableColumn();
+        tc.setHeaderValue("Aquilo lá");
+        TableColumn tc2 = new TableColumn();
+        tc2.setHeaderValue("Aquilo lá 2");
+        TableColumn tc3 = new TableColumn();
+        tc3.setHeaderValue("Aquilo lá 3");
+        TableColumn tc4 = new TableColumn();
+        tc4.setHeaderValue("Aquilo lá 4");
+
+        tabela.addColumn(tc);
+        tabela.addColumn(tc2);
+        tabela.addColumn(tc3);
+        tabela.addColumn(tc4);
+
+        jScrollPaneTabela.setViewportView(tabela);
     }
 
     /**
@@ -69,45 +93,22 @@ public class Visualizador extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabelArvore = new javax.swing.JLabel();
-        jPanelArvore = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
         jLabelQuery = new javax.swing.JLabel();
         jScrollPaneQuery = new javax.swing.JScrollPane();
         jTextAreaQuery = new javax.swing.JTextArea();
         jLabelTabela = new javax.swing.JLabel();
-        jPanelTabela = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jLabelStatus = new javax.swing.JLabel();
         jPanelStatus = new javax.swing.JPanel();
         jLabelQueryLog = new javax.swing.JLabel();
         jPanelQueryLog = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButtonExecutar = new javax.swing.JButton();
+        jScrollPaneArvore = new javax.swing.JScrollPane();
+        jScrollPaneTabela = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabelArvore.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelArvore.setText("Árvore de Componentes");
-
-        jPanelArvore.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jScrollPane1.setViewportView(jTree1);
-
-        javax.swing.GroupLayout jPanelArvoreLayout = new javax.swing.GroupLayout(jPanelArvore);
-        jPanelArvore.setLayout(jPanelArvoreLayout);
-        jPanelArvoreLayout.setHorizontalGroup(
-            jPanelArvoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelArvoreLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanelArvoreLayout.setVerticalGroup(
-            jPanelArvoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelArvoreLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
-                .addContainerGap())
-        );
 
         jLabelQuery.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelQuery.setText("Digite suas queries neste espaço.");
@@ -119,36 +120,6 @@ public class Visualizador extends javax.swing.JFrame {
         jLabelTabela.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelTabela.setText("Resultados das querys realizadas");
 
-        jPanelTabela.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable1);
-
-        javax.swing.GroupLayout jPanelTabelaLayout = new javax.swing.GroupLayout(jPanelTabela);
-        jPanelTabela.setLayout(jPanelTabelaLayout);
-        jPanelTabelaLayout.setHorizontalGroup(
-            jPanelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTabelaLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanelTabelaLayout.setVerticalGroup(
-            jPanelTabelaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTabelaLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         jLabelStatus.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jLabelStatus.setText("Log de status da conexão");
 
@@ -158,7 +129,7 @@ public class Visualizador extends javax.swing.JFrame {
         jPanelStatus.setLayout(jPanelStatusLayout);
         jPanelStatusLayout.setHorizontalGroup(
             jPanelStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 296, Short.MAX_VALUE)
         );
         jPanelStatusLayout.setVerticalGroup(
             jPanelStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,10 +152,10 @@ public class Visualizador extends javax.swing.JFrame {
             .addGap(0, 66, Short.MAX_VALUE)
         );
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonExecutar.setText("Executar");
+        jButtonExecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonExecutarActionPerformed(evt);
             }
         });
 
@@ -196,14 +167,13 @@ public class Visualizador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabelArvore)
-                    .addComponent(jPanelStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabelStatus)
-                    .addComponent(jPanelArvore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneArvore))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPaneQuery)
                     .addComponent(jPanelQueryLog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelTabela)
@@ -211,8 +181,9 @@ public class Visualizador extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelQuery)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jButtonExecutar)))
+                        .addGap(0, 487, Short.MAX_VALUE))
+                    .addComponent(jScrollPaneTabela))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -222,7 +193,7 @@ public class Visualizador extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelQuery)
                     .addComponent(jLabelArvore)
-                    .addComponent(jButton1))
+                    .addComponent(jButtonExecutar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -230,8 +201,8 @@ public class Visualizador extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelTabela)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelTabela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanelArvore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))
+                    .addComponent(jScrollPaneArvore))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelQueryLog)
@@ -247,28 +218,23 @@ public class Visualizador extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-    
+    private void jButtonExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExecutarActionPerformed
+        geraTabelaConsulta();
+        //JOptionPane.showMessageDialog(null, "Ainda não implementamos isso!");
+    }//GEN-LAST:event_jButtonExecutarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonExecutar;
     private javax.swing.JLabel jLabelArvore;
     private javax.swing.JLabel jLabelQuery;
     private javax.swing.JLabel jLabelQueryLog;
     private javax.swing.JLabel jLabelStatus;
     private javax.swing.JLabel jLabelTabela;
-    private javax.swing.JPanel jPanelArvore;
     private javax.swing.JPanel jPanelQueryLog;
     private javax.swing.JPanel jPanelStatus;
-    private javax.swing.JPanel jPanelTabela;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPaneArvore;
     private javax.swing.JScrollPane jScrollPaneQuery;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPaneTabela;
     private javax.swing.JTextArea jTextAreaQuery;
-    private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }
