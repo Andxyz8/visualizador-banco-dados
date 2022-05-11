@@ -1,5 +1,6 @@
 package db;
 
+import db.Consulta;
 import java.awt.List;
 import java.lang.reflect.Array;
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
@@ -81,7 +83,7 @@ public class BancoDados {
             System.exit(0);
         }
     }
-
+    
     /**
      * Função geradora da árvore que será exibida na barra esquerda da janela
      * principal.
@@ -230,7 +232,15 @@ public class BancoDados {
         campoFormatado += campo + " [" + tipoF + "]";
         return campoFormatado;
     }
-
+    
+    public JTable gerarConsulta(String queryConsulta){
+        
+        Connection connection1 = getConnection();
+        Consulta consultQuery = new Consulta();
+        JTable tabela = consultQuery.Consulta(queryConsulta, connection1);
+        return tabela; 
+    }
+    
     /**
      * Função específica da implementação do PostgreSQL para verifcar se o campo
      * análisado é uma chave primária ou não.
