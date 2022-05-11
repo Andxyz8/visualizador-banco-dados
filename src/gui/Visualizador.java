@@ -5,12 +5,10 @@
 package gui;
 
 import db.BancoDados;
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.TableColumn;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeSelectionModel;
 
 /**
  * Esta classe permite visualizar a estrutura do banco de dados através de uma
@@ -39,6 +37,7 @@ public class Visualizador extends javax.swing.JFrame {
         this();
         this.banco = bd;
         setInfoBanco();
+        setInfoConexao();
     }
 
     /**
@@ -48,11 +47,10 @@ public class Visualizador extends javax.swing.JFrame {
     private void setInfoBanco() {
         this.setTitle(this.banco.getNomeBanco());
         geraArvoreEstrutura();
-
     }
 
     /**
-     *
+     *  Constrói a árvore da estrutura do banco e exibe no JForm principal.
      */
     private void geraArvoreEstrutura() {
         JTree arvore = new JTree(banco.getArvoreEstrutura());
@@ -62,7 +60,15 @@ public class Visualizador extends javax.swing.JFrame {
     }
 
     /**
-     *
+     *  Exibe as informações de conexão no JForm principal.
+     */
+    private void setInfoConexao() {
+        jTextPaneStatus.setEditable(false);
+        jTextPaneStatus.setText(banco.getInfoConexao());
+    }
+    
+    /**
+     *  
      */
     private void geraTabelaConsulta() {
         JTable tabela = new JTable();
@@ -99,8 +105,12 @@ public class Visualizador extends javax.swing.JFrame {
         jLabelTabela = new javax.swing.JLabel();
         jLabelStatus = new javax.swing.JLabel();
         jPanelStatus = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPaneStatus = new javax.swing.JTextPane();
         jLabelQueryLog = new javax.swing.JLabel();
         jPanelQueryLog = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
         jButtonExecutar = new javax.swing.JButton();
         jScrollPaneArvore = new javax.swing.JScrollPane();
         jScrollPaneTabela = new javax.swing.JScrollPane();
@@ -125,15 +135,18 @@ public class Visualizador extends javax.swing.JFrame {
 
         jPanelStatus.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jTextPaneStatus.setContentType("text/html"); // NOI18N
+        jScrollPane1.setViewportView(jTextPaneStatus);
+
         javax.swing.GroupLayout jPanelStatusLayout = new javax.swing.GroupLayout(jPanelStatus);
         jPanelStatus.setLayout(jPanelStatusLayout);
         jPanelStatusLayout.setHorizontalGroup(
             jPanelStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 296, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
         );
         jPanelStatusLayout.setVerticalGroup(
             jPanelStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         jLabelQueryLog.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
@@ -141,15 +154,17 @@ public class Visualizador extends javax.swing.JFrame {
 
         jPanelQueryLog.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jScrollPane2.setViewportView(jTextPane1);
+
         javax.swing.GroupLayout jPanelQueryLogLayout = new javax.swing.GroupLayout(jPanelQueryLog);
         jPanelQueryLog.setLayout(jPanelQueryLogLayout);
         jPanelQueryLogLayout.setHorizontalGroup(
             jPanelQueryLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
         jPanelQueryLogLayout.setVerticalGroup(
             jPanelQueryLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 66, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
         );
 
         jButtonExecutar.setText("Executar");
@@ -201,7 +216,7 @@ public class Visualizador extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelTabela)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))
+                        .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))
                     .addComponent(jScrollPaneArvore))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -232,9 +247,13 @@ public class Visualizador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTabela;
     private javax.swing.JPanel jPanelQueryLog;
     private javax.swing.JPanel jPanelStatus;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPaneArvore;
     private javax.swing.JScrollPane jScrollPaneQuery;
     private javax.swing.JScrollPane jScrollPaneTabela;
     private javax.swing.JTextArea jTextAreaQuery;
+    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTextPane jTextPaneStatus;
     // End of variables declaration//GEN-END:variables
 }

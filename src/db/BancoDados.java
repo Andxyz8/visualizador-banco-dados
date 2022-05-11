@@ -186,6 +186,32 @@ public class BancoDados {
     }
 
     /**
+     * Retorna as informações sobre a conexão no banco de dados atual do
+     * programa.
+     *
+     * @return String devidamente formatada com as informações sobre a conexão
+     * atual do banco de dados.
+     */
+    public String getInfoConexao() {
+        String infos = "";
+        infos += "<b>Banco de dados</b>: " + this.nomeBanco + "<br>"
+                + "<b>Usuário</b>: " + this.usuario + "<br>"
+                + "<b>SGBDR</b>: ";
+        if (isMysql) {
+            infos += "MySQL<br>";
+        } else {
+            infos += "PostgreSQL<br>";
+        }
+        infos += "<b>Status Conexão</b>: ";
+        if (isActive()) {
+            infos += "<b style=\"color:green\">OK.</b>";
+        } else {
+            infos += "<b style=\"color:red\">ERRO.</b>";
+        }
+        return infos;
+    }
+
+    /**
      * Retorna o objeto que possui as informações de conexão atual.
      *
      * @return Objeto connection de conexão ao banco de dados.
@@ -193,7 +219,7 @@ public class BancoDados {
     public Connection getConnection() {
         return this.connection;
     }
-    
+
     /**
      * Retorna o valor da variável nomeBanco.
      *
