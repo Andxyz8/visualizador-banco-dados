@@ -70,29 +70,11 @@ public class Visualizador extends javax.swing.JFrame {
     /**
      *  
      */
-    private void geraTabelaConsulta() {
-        String[] columnNames = {"First Name",
-                        "Last Name",
-                        "Sport",
-                        "# of Years",
-                        "Vegetarian"};
+    private void geraTabelaConsulta(String query) {
         
-        Object[][] data = {
-            {"Kathy", "Smith",
-             "Snowboarding", "10", "true"},
-            {"John", "Doe",
-             "Rowing", "10", "true"},
-            {"Sue", "Black",
-             "Knitting", "10", "true"},
-            {"Jane", "White",
-             "Speed reading", "10", "true"},
-            {"Joe", "Brown",
-             "Pool", "10", "true"}
-        };
+        JTable tabela = this.banco.gerarConsulta(query);
         
-        JTable tabela = new JTable(data, columnNames);
-        /*
-        JTable tabela = new JTable(data, columnNames);
+        /*JTable tabela = new JTable(data, columnNames);
         TableColumn tc = new TableColumn();
         tc.setHeaderValue("Aquilo lá");
         TableColumn tc2 = new TableColumn();
@@ -257,8 +239,9 @@ public class Visualizador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExecutarActionPerformed
-        geraTabelaConsulta();
-        //JOptionPane.showMessageDialog(null, "Ainda não implementamos isso!");
+        String query = jTextAreaQuery.getText();
+        geraTabelaConsulta(query);
+        
     }//GEN-LAST:event_jButtonExecutarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

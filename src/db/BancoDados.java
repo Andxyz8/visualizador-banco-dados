@@ -1,5 +1,7 @@
 package db;
 
+import db.Consulta;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
@@ -77,7 +80,7 @@ public class BancoDados {
             System.exit(0);
         }
     }
-
+    
     /**
      * Função geradora da árvore que será exibida na barra esquerda da janela
      * principal.
@@ -184,7 +187,15 @@ public class BancoDados {
         campoFormatado += campo + " [" + tipoF + "]";
         return campoFormatado;
     }
-
+    
+    public JTable gerarConsulta(String queryConsulta){
+        
+        Connection connection1 = getConnection();
+        Consulta consultQuery = new Consulta();
+        JTable tabela = consultQuery.Consulta(queryConsulta, connection1);
+        return tabela; 
+    }
+    
     /**
      * Retorna as informações sobre a conexão no banco de dados atual do
      * programa.
