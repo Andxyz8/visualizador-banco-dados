@@ -59,8 +59,8 @@ public class Consulta {
         JTable tabela = new JTable(data, columnNames);
 
         return tabela;
-    }
-
+    }        
+  
     /**
      * @param limiteLinhas the limiteLinhas to set
      */
@@ -74,4 +74,5 @@ public class Consulta {
     public int getLimiteLinhas() {
         return limiteLinhas;
     }
+
 }
