@@ -59,5 +59,5 @@ public class Consulta {
         JTable tabela = new JTable(data, columnNames);
 
         return tabela;
-    }
+    }        
 }

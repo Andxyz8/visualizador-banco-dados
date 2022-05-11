@@ -5,9 +5,13 @@
 package gui;
 
 import db.BancoDados;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 
 /**
  * Esta classe permite visualizar a estrutura do banco de dados através de uma
@@ -18,6 +22,7 @@ import javax.swing.JOptionPane;
 public class Visualizador extends javax.swing.JFrame {
 
     private BancoDados banco;
+    JTable tabela = new JTable();
 
     /**
      * Creates new form Visualizador
@@ -71,7 +76,7 @@ public class Visualizador extends javax.swing.JFrame {
      */
     private void geraTabelaConsulta(String query) {
         
-        JTable tabela = this.banco.gerarConsulta(query);
+        this.tabela = this.banco.gerarConsulta(query);
         jScrollPaneTabela.setViewportView(tabela);
         tabela.setFillsViewportHeight(true);
         
@@ -104,6 +109,8 @@ public class Visualizador extends javax.swing.JFrame {
         jScrollPaneTabela = new javax.swing.JScrollPane();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,6 +181,25 @@ public class Visualizador extends javax.swing.JFrame {
 
         jButton2.setText("Exportar");
         jButton2.setActionCommand("export");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ExportarActionPerformed(evt);
+            }
+        });
+
+        jRadioButton1.setText("CSV");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1CSVActionPerformed(evt);
+            }
+        });
+
+        jRadioButton2.setText("JSON");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2JSONActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -188,24 +214,31 @@ public class Visualizador extends javax.swing.JFrame {
                     .addComponent(jScrollPaneArvore))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneQuery)
-                    .addComponent(jPanelQueryLog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneTabela)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelQueryLog)
+                            .addComponent(jScrollPaneQuery)
+                            .addComponent(jPanelQueryLog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPaneTabela)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelQuery)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonExecutar)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelQueryLog)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabelQuery)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButtonExecutar)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabelTabela)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 378, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jRadioButton2)
+                        .addGap(27, 27, 27))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,7 +257,9 @@ public class Visualizador extends javax.swing.JFrame {
                             .addComponent(jLabelTabela)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jButton1)
-                                .addComponent(jButton2)))
+                                .addComponent(jButton2)
+                                .addComponent(jRadioButton1)
+                                .addComponent(jRadioButton2)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE))
                     .addComponent(jScrollPaneArvore))
@@ -258,6 +293,64 @@ public class Visualizador extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, mensagem);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ExportarActionPerformed
+        if ((!this.jRadioButton1.isSelected()) && (!this.jRadioButton2.isSelected())){
+            System.out.println("nenhuma opcao selecionada");
+        }else if(this.jRadioButton1.isSelected()){
+            boolean a = exportToCSV(tabela, ".\\tabela.csv");
+            if(a){
+                System.out.println("exportou csv");
+            }
+        }else if(this.jRadioButton2.isSelected()){
+            System.out.println("exportou JSON");
+        }
+    }//GEN-LAST:event_jButton2ExportarActionPerformed
+
+    public static boolean exportToCSV(JTable tableToExport, String pathToExportTo) {
+
+        try {
+            String str = "";
+            
+            TableModel model = tableToExport.getModel();
+            FileWriter csv = new FileWriter(new File(pathToExportTo));
+
+            for (int i = 0; i < model.getColumnCount(); i++) {
+                //csv.write(model.getColumnName(i) + ",");
+                str += (model.getColumnName(i) + ",");
+            }
+
+            //csv.write("\n");
+            csv.write(str.substring(0, str.length()-1) + "\n");
+            str = "";
+            
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    //csv.write(model.getValueAt(i, j).toString() + ",");
+                    str += (model.getValueAt(i, j).toString() + ",");
+                }
+                //csv.write("\n");
+                csv.write(str.substring(0, str.length()-1) + "\n");
+                str = "";
+            }
+
+            csv.close();
+            return true;
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    private void jRadioButton1CSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1CSVActionPerformed
+        this.jRadioButton1.setSelected(true);
+        this.jRadioButton2.setSelected(false);
+    }//GEN-LAST:event_jRadioButton1CSVActionPerformed
+
+    private void jRadioButton2JSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2JSONActionPerformed
+        this.jRadioButton2.setSelected(true);
+        this.jRadioButton1.setSelected(false);
+    }//GEN-LAST:event_jRadioButton2JSONActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -269,6 +362,8 @@ public class Visualizador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTabela;
     private javax.swing.JPanel jPanelQueryLog;
     private javax.swing.JPanel jPanelStatus;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPaneArvore;
