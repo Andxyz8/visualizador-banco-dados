@@ -5,10 +5,8 @@
 package gui;
 
 import db.BancoDados;
-import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTree;
-import javax.swing.table.TableColumn;
 
 /**
  * Esta classe permite visualizar a estrutura do banco de dados através de uma

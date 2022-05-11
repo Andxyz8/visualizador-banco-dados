@@ -5,6 +5,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
+import java.util.ArrayList;
 import javax.swing.JTable;
 
 /**
@@ -24,10 +25,10 @@ public class Consulta {
         String resultQuery = "";
         String[] columnNames = null;
         String[][] data1 = null;
-        //ArrayList<Teste> t = new ArrayList<>(10); -> Array de tamanho variavel?
+        //ArrayList<String> t = new ArrayList<>(); // Array de tamanho variavel?
         try {
             Statement resultados1 = connection.createStatement();
-            this.resultados = resultados1.executeQuery("select * from section");
+            this.resultados = resultados1.executeQuery("select * from autor");
             ResultSetMetaData resultadosMetadata = this.resultados.getMetaData();
             int totalRegs = 10;
             int aux = 0;

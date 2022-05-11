@@ -1,10 +1,7 @@
 package db;
 
 import db.Consulta;
-import java.awt.List;
-import java.lang.reflect.Array;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -234,10 +231,8 @@ public class BancoDados {
     }
     
     public JTable gerarConsulta(String queryConsulta){
-        
-        Connection connection1 = getConnection();
         Consulta consultQuery = new Consulta();
-        JTable tabela = consultQuery.Consulta(queryConsulta, connection1);
+        JTable tabela = consultQuery.Consulta(queryConsulta, getConnection());
         return tabela; 
     }
     
