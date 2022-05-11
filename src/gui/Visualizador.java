@@ -65,7 +65,28 @@ public class Visualizador extends javax.swing.JFrame {
      *
      */
     private void geraTabelaConsulta() {
-        JTable tabela = new JTable();
+        String[] columnNames = {"First Name",
+                        "Last Name",
+                        "Sport",
+                        "# of Years",
+                        "Vegetarian"};
+        
+        Object[][] data = {
+            {"Kathy", "Smith",
+             "Snowboarding", "10", "true"},
+            {"John", "Doe",
+             "Rowing", "10", "true"},
+            {"Sue", "Black",
+             "Knitting", "10", "true"},
+            {"Jane", "White",
+             "Speed reading", "10", "true"},
+            {"Joe", "Brown",
+             "Pool", "10", "true"}
+        };
+        
+        JTable tabela = new JTable(data, columnNames);
+        /*
+        JTable tabela = new JTable(data, columnNames);
         TableColumn tc = new TableColumn();
         tc.setHeaderValue("Aquilo lá");
         TableColumn tc2 = new TableColumn();
@@ -79,8 +100,10 @@ public class Visualizador extends javax.swing.JFrame {
         tabela.addColumn(tc2);
         tabela.addColumn(tc3);
         tabela.addColumn(tc4);
-
+        */
         jScrollPaneTabela.setViewportView(tabela);
+        tabela.setFillsViewportHeight(true);
+        
     }
 
     /**
