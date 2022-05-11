@@ -24,23 +24,23 @@ public class Consulta {
     public JTable Consulta(String query, Connection connection) {
         String resultQuery = "";
         String[] columnNames = null;
-        String[][] data1 = null;
-        //ArrayList<String> t = new ArrayList<>(); // Array de tamanho variavel?
+        String[][] data = null;
+        int totalRegs = 10;
+
         try {
             Statement resultados1 = connection.createStatement();
-            this.resultados = resultados1.executeQuery("select * from autor");
+            this.resultados = resultados1.executeQuery(query);
             ResultSetMetaData resultadosMetadata = this.resultados.getMetaData();
-            int totalRegs = 10;
             int aux = 0;
 
             columnNames = new String[resultadosMetadata.getColumnCount()];
-            data1 = new String[totalRegs][resultadosMetadata.getColumnCount()];
+            data = new String[totalRegs][resultadosMetadata.getColumnCount()];
   
             while (this.resultados.next()) {
                 int i = 1;
                 while (i < (resultadosMetadata.getColumnCount() + 1)) {
                     try {
-                        data1[aux][i-1] = this.resultados.getString(i);
+                        data[aux][i-1] = this.resultados.getString(i);
                         //resultQuery += this.resultados.getString(i) + " | ";
                         columnNames[i - 1] = resultadosMetadata.getColumnName(i);
                     } catch (Exception e) {
@@ -52,9 +52,11 @@ public class Consulta {
             }
         } catch (SQLException sql1) {
             System.out.println(sql1);
+            JTable tabela = new JTable();
+            return tabela;
         }
 
-        JTable tabela = new JTable(data1, columnNames);
+        JTable tabela = new JTable(data, columnNames);
 
         return tabela;
     }

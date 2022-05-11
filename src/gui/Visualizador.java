@@ -7,6 +7,7 @@ package gui;
 import db.BancoDados;
 import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.JOptionPane;
 
 /**
  * Esta classe permite visualizar a estrutura do banco de dados através de uma
@@ -71,22 +72,6 @@ public class Visualizador extends javax.swing.JFrame {
     private void geraTabelaConsulta(String query) {
         
         JTable tabela = this.banco.gerarConsulta(query);
-        
-        /*JTable tabela = new JTable(data, columnNames);
-        TableColumn tc = new TableColumn();
-        tc.setHeaderValue("Aquilo lá");
-        TableColumn tc2 = new TableColumn();
-        tc2.setHeaderValue("Aquilo lá 2");
-        TableColumn tc3 = new TableColumn();
-        tc3.setHeaderValue("Aquilo lá 3");
-        TableColumn tc4 = new TableColumn();
-        tc4.setHeaderValue("Aquilo lá 4");
-
-        tabela.addColumn(tc);
-        tabela.addColumn(tc2);
-        tabela.addColumn(tc3);
-        tabela.addColumn(tc4);
-        */
         jScrollPaneTabela.setViewportView(tabela);
         tabela.setFillsViewportHeight(true);
         
@@ -117,6 +102,8 @@ public class Visualizador extends javax.swing.JFrame {
         jButtonExecutar = new javax.swing.JButton();
         jScrollPaneArvore = new javax.swing.JScrollPane();
         jScrollPaneTabela = new javax.swing.JScrollPane();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -177,6 +164,17 @@ public class Visualizador extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Limite Registros");
+        jButton1.setActionCommand("limRegs");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Exportar");
+        jButton2.setActionCommand("export");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,16 +190,21 @@ public class Visualizador extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPaneQuery)
                     .addComponent(jPanelQueryLog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneTabela)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelTabela)
                             .addComponent(jLabelQueryLog)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelQuery)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButtonExecutar)))
-                        .addGap(0, 487, Short.MAX_VALUE))
-                    .addComponent(jScrollPaneTabela))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelTabela)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 378, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -217,9 +220,13 @@ public class Visualizador extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPaneQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelTabela)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelTabela)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jButton1)
+                                .addComponent(jButton2)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))
+                        .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE))
                     .addComponent(jScrollPaneArvore))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -242,7 +249,18 @@ public class Visualizador extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButtonExecutarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String nome;
+        StringBuilder mensagem = new StringBuilder();
+
+        nome = JOptionPane.showInputDialog("Digite seu nome:");
+        mensagem.append("Bem-vindo ").append(nome).append("!");
+        JOptionPane.showMessageDialog(null, mensagem);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonExecutar;
     private javax.swing.JLabel jLabelArvore;
     private javax.swing.JLabel jLabelQuery;

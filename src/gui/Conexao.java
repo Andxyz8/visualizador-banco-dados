@@ -52,7 +52,7 @@ public class Conexao extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldNomeBanco.setText("livrosdb");
+        jTextFieldNomeBanco.setText("university");
 
         jRadioButtonMySQL.setText("MySQL");
         jRadioButtonMySQL.addActionListener(new java.awt.event.ActionListener() {
