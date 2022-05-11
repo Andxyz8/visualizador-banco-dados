@@ -1,10 +1,14 @@
 package db;
 
+import java.awt.List;
+import java.lang.reflect.Array;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -113,8 +117,14 @@ public class BancoDados {
      */
     private DefaultMutableTreeNode geraSubArvoreTabelas(DefaultMutableTreeNode pai) throws SQLException {
         ResultSet rst;
-        String query = "SHOW TABLES;";
-        String coluna = "Tables_in_" + getNomeBanco();
+        String query, coluna;
+        if (isMysql) {
+            query = "SHOW TABLES;";
+            coluna = "Tables_in_" + getNomeBanco();
+        } else {
+            query = "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';";
+            coluna = "tablename";
+        }
 
         try ( Statement stmt = getConnection().createStatement()) {
             rst = stmt.executeQuery(query);
@@ -140,13 +150,32 @@ public class BancoDados {
      */
     private DefaultMutableTreeNode geraSubArvoreCampos(DefaultMutableTreeNode pai) throws SQLException {
         ResultSet rst;
-        String query = "DESC " + pai.toString() + ";";
-        String coluna = "Field";
+        String query, coluna;
+        ArrayList<String> pkeys = new ArrayList<>();
+        if (isMysql) {
+            query = "DESC " + pai.toString() + ";";
+            coluna = "Field";
+        } else {
+            query = "SELECT column_name, constraint_name FROM information_schema.key_column_usage WHERE table_name = \'" + pai.toString() + "\';";
+
+            try ( Statement stmt = getConnection().createStatement()) {
+                rst = stmt.executeQuery(query);
+                while (rst.next()) {
+                    if (!rst.getString(2).replaceAll("pkey", "").equals(rst.getString(2))) {
+                        pkeys.add(rst.getString(1));
+                    }
+                }
+            }
+            
+            query = "SELECT column_name, data_type, character_maximum_length, numeric_precision "
+                    + "FROM information_schema.columns WHERE table_name = \'" + pai.toString() + "\';";
+            coluna = "column_name";
+        }
 
         try ( Statement stmt = getConnection().createStatement()) {
             rst = stmt.executeQuery(query);
             while (rst.next()) {
-                String nomeCampo = formataCampo(rst, rst.getString(coluna));
+                String nomeCampo = formataCampo(rst, rst.getString(coluna), pkeys);
                 DefaultMutableTreeNode no = new DefaultMutableTreeNode(nomeCampo);
                 pai.add(no);
             }
@@ -164,25 +193,61 @@ public class BancoDados {
      *
      * @param rs Objeto ResultSet apontando para o campo em questão.
      * @param campo Nome do campo que será formatado.
+     * @param pkeys Exclusivo da implementação para o PostgreSQL. Chaves
+     * primárias da tabela.
      * @return String do campo em questão devidamente formatada para exibição.
      * @throws SQLException Está sendo tratada no escopo de execução inicial.
      */
-    private String formataCampo(ResultSet rs, String campo) throws SQLException {
-        String campoFormatado = "", tipoF = "";
-        String tipoNF = rs.getString("Type");
-        if (tipoNF.contains("'")) {
-            String aux = tipoNF.split("\\(")[0].toUpperCase();
-            int pos = tipoNF.indexOf("(");
-            tipoF += aux + tipoNF.substring(pos);
+    private String formataCampo(ResultSet rs, String campo, ArrayList<String> pkeys) throws SQLException {
+        String campoFormatado = "", tipoF = "", tipoNF;
+
+        if (isMysql) {
+            tipoNF = rs.getString("Type");
+            if (tipoNF.contains("'")) {
+                String aux = tipoNF.split("\\(")[0].toUpperCase();
+                int pos = tipoNF.indexOf("(");
+                tipoF += aux + tipoNF.substring(pos);
+            } else {
+                tipoF += tipoNF.toUpperCase();
+            }
+
+            if (!rs.getString("Key").equals("")) {
+                campoFormatado += "{" + rs.getString("Key") + "} ";
+            }
         } else {
-            tipoF += tipoNF.toUpperCase();
+            tipoF += rs.getString("data_type").toUpperCase();
+            if (rs.getString(4) != null) {
+                tipoF += "(" + rs.getString(4) + ")";
+            } else {
+                tipoF += "(" + rs.getString(3) + ")";
+            }
+
+            if (isChavePrimaria(pkeys, campo)) {
+                campoFormatado += "{PK} ";
+            }
         }
 
-        if (!rs.getString("Key").equals("")) {
-            campoFormatado += "{" + rs.getString("Key") + "} ";
-        }
         campoFormatado += campo + " [" + tipoF + "]";
         return campoFormatado;
+    }
+
+    /**
+     * Função específica da implementação do PostgreSQL para verifcar se o campo
+     * análisado é uma chave primária ou não.
+     *
+     * @param pkeys Chaves primárias existentes na tabela.
+     * @param campo campo a ser comparado com as chaves primárias já encontradas
+     * da tabela.
+     * @return true se o campo for uma chave primária, false caso contrário.
+     */
+    private boolean isChavePrimaria(ArrayList<String> pkeys, String campo) {
+        for (String pk : pkeys) {
+            if (pk.equals(campo)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
