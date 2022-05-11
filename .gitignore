@@ -29,6 +29,7 @@ replay_pid*
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
+**/src/gui/Conexao*
 build/
 nbbuild/
 dist/

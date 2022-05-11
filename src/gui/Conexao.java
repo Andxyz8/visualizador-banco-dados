@@ -52,7 +52,7 @@ public class Conexao extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldNomeBanco.setText("university");
+        jTextFieldNomeBanco.setText("universidade");
 
         jRadioButtonMySQL.setText("MySQL");
         jRadioButtonMySQL.addActionListener(new java.awt.event.ActionListener() {
@@ -68,7 +68,7 @@ public class Conexao extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldUsuario.setText("root");
+        jTextFieldUsuario.setText("postgres");
 
         jLabelUsuario.setText("Usuário:");
 
