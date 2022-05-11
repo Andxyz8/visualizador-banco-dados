@@ -130,7 +130,7 @@ public class BancoDados {
         ResultSet rst;
         String query, coluna;
         if (isMysql) {
-            query = "SHOW TABLES;";
+            query = "SHOW FULL TABLES WHERE TABLE_TYPE LIKE 'BASE TABLE';";
             coluna = "Tables_in_" + getNomeBanco();
         } else {
             query = "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';";
