@@ -254,8 +254,11 @@ public class Visualizador extends javax.swing.JFrame {
         StringBuilder mensagem = new StringBuilder();
 
         nome = JOptionPane.showInputDialog("Digite seu nome:");
+        
+        
         mensagem.append("Bem-vindo ").append(nome).append("!");
         JOptionPane.showMessageDialog(null, mensagem);
+        this.banco.getConsulta().setLimiteLinhas(Integer.parseInt(nome));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
