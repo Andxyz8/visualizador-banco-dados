@@ -1,6 +1,5 @@
 package db;
 
-import db.Consulta;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -48,7 +47,7 @@ public class BancoDados {
         this.isMysql = isMysql;
         this.url = criaUrlApropriada();
         this.consulta = new Consulta();
-        
+
         criaConexao();
     }
 
@@ -194,7 +193,6 @@ public class BancoDados {
         rst.close();
         return pai;
     }
-//| Field   | Type | Null | Key | Default | Extra
 
     /**
      * Realiza a formatação da String que será exibida na JTree da janela
@@ -222,7 +220,7 @@ public class BancoDados {
                 tipoF += tipoNF.toUpperCase();
             }
 
-            if (!rs.getString("Key").equals("")) {
+            if (rs.getString("Key").equals("PRI")) {
                 campoFormatado += "{" + rs.getString("Key") + "} ";
             }
         } else {
@@ -261,7 +259,7 @@ public class BancoDados {
         return false;
     }
 
-    private DefaultMutableTreeNode geraSubArvoreViews(DefaultMutableTreeNode views) throws SQLException{
+    private DefaultMutableTreeNode geraSubArvoreViews(DefaultMutableTreeNode views) throws SQLException {
         ResultSet rst;
         String query, coluna;
         if (isMysql) {
@@ -281,11 +279,11 @@ public class BancoDados {
             }
         }
         rst.close();
-        
+
         return views;
     }
 
-    private DefaultMutableTreeNode geraSubArvoreCamposViews(DefaultMutableTreeNode pai) throws SQLException{
+    private DefaultMutableTreeNode geraSubArvoreCamposViews(DefaultMutableTreeNode pai) throws SQLException {
         ResultSet rst;
         String query, coluna;
         ArrayList<String> pkeys = new ArrayList<>();
@@ -317,13 +315,13 @@ public class BancoDados {
                 pai.add(no);
             }
         }
-        
+
         rst.close();
         return pai;
     }
 
     public JTable gerarConsulta(String queryConsulta) {
-        JTable tabela = this.consulta.Consulta(queryConsulta, getConnection());
+        JTable tabela = this.consulta.geraTabelaConsulta(queryConsulta, getConnection());
         return tabela;
     }
 
@@ -379,12 +377,16 @@ public class BancoDados {
     public String getUsuario() {
         return this.usuario;
     }
-    
-    
-    public Consulta getConsulta(){
-        return this.consulta;
+
+    /**
+     * Define o valor da variável que controla o limite de linhas a serem
+     * exibidas por consulta.
+     *
+     * @param lr Novo limite de rows a ser atribuído.
+     */
+    public void setLimiteRowsConsulta(int lr) {
+        this.consulta.setLimiteLinhas(lr);
     }
-    
 
     /**
      * Retorna o valor da variável active.
