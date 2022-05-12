@@ -1,5 +1,6 @@
 package db;
 
+import gui.Visualizador;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -72,8 +73,6 @@ public class BancoDados {
      */
     private void criaConexao() {
         try {
-            System.out.println("Usuario: " + this.usuario);
-            System.out.println("Senha: " + this.senha);
             this.connection = DriverManager.getConnection(this.url, this.usuario, this.senha);
             setIsActive(!connection.isClosed());
         } catch (SQLException ex) {
@@ -320,8 +319,8 @@ public class BancoDados {
         return pai;
     }
 
-    public JTable gerarConsulta(String queryConsulta) {
-        JTable tabela = this.consulta.geraTabelaConsulta(queryConsulta, getConnection());
+    public JTable gerarConsulta(String queryConsulta, Visualizador tela) {
+        JTable tabela = this.consulta.geraTabelaConsulta(queryConsulta, getConnection(), tela);
         return tabela;
     }
 
