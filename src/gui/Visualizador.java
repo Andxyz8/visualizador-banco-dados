@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
+import org.json.JSONObject;
 
 /**
  * Esta classe permite visualizar a estrutura do banco de dados através de uma
@@ -54,7 +55,7 @@ public class Visualizador extends javax.swing.JFrame {
     }
 
     /**
-     *  Constrói a árvore da estrutura do banco e exibe no JForm principal.
+     * Constrói a árvore da estrutura do banco e exibe no JForm principal.
      */
     private void geraArvoreEstrutura() {
         JTree arvore = new JTree(banco.getArvoreEstrutura());
@@ -64,22 +65,22 @@ public class Visualizador extends javax.swing.JFrame {
     }
 
     /**
-     *  Exibe as informações de conexão no JForm principal.
+     * Exibe as informações de conexão no JForm principal.
      */
     private void setInfoConexao() {
         jTextPaneStatus.setEditable(false);
         jTextPaneStatus.setText(banco.getInfoConexao());
     }
-    
+
     /**
-     *  
+     *
      */
     private void geraTabelaConsulta(String query) {
-        
+
         this.tabela = this.banco.gerarConsulta(query);
         jScrollPaneTabela.setViewportView(tabela);
         tabela.setFillsViewportHeight(true);
-        
+
     }
 
     /**
@@ -281,7 +282,7 @@ public class Visualizador extends javax.swing.JFrame {
     private void jButtonExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExecutarActionPerformed
         String query = jTextAreaQuery.getText();
         geraTabelaConsulta(query);
-        
+
     }//GEN-LAST:event_jButtonExecutarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -289,23 +290,25 @@ public class Visualizador extends javax.swing.JFrame {
         StringBuilder mensagem = new StringBuilder();
 
         nome = JOptionPane.showInputDialog("Digite seu nome:");
-        
-        
+
         mensagem.append("Bem-vindo ").append(nome).append("!");
         JOptionPane.showMessageDialog(null, mensagem);
         this.banco.getConsulta().setLimiteLinhas(Integer.parseInt(nome));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ExportarActionPerformed
-        if ((!this.jRadioButton1.isSelected()) && (!this.jRadioButton2.isSelected())){
+        if ((!this.jRadioButton1.isSelected()) && (!this.jRadioButton2.isSelected())) {
             System.out.println("nenhuma opcao selecionada");
-        }else if(this.jRadioButton1.isSelected()){
+        } else if (this.jRadioButton1.isSelected()) {
             boolean a = exportToCSV(tabela, ".\\tabela.csv");
-            if(a){
+            if (a) {
                 System.out.println("exportou csv");
             }
-        }else if(this.jRadioButton2.isSelected()){
-            System.out.println("exportou JSON");
+        } else if (this.jRadioButton2.isSelected()) {
+            boolean a = exportToJSON(tabela, ".\\tabela.json");
+            if (a) {
+                System.out.println("exportou JSON");
+            }
         }
     }//GEN-LAST:event_jButton2ExportarActionPerformed
 
@@ -313,7 +316,7 @@ public class Visualizador extends javax.swing.JFrame {
 
         try {
             String str = "";
-            
+
             TableModel model = tableToExport.getModel();
             FileWriter csv = new FileWriter(new File(pathToExportTo));
 
@@ -323,16 +326,16 @@ public class Visualizador extends javax.swing.JFrame {
             }
 
             //csv.write("\n");
-            csv.write(str.substring(0, str.length()-1) + "\n");
+            csv.write(str.substring(0, str.length() - 1) + "\n");
             str = "";
-            
+
             for (int i = 0; i < model.getRowCount(); i++) {
                 for (int j = 0; j < model.getColumnCount(); j++) {
                     //csv.write(model.getValueAt(i, j).toString() + ",");
                     str += (model.getValueAt(i, j).toString() + ",");
                 }
                 //csv.write("\n");
-                csv.write(str.substring(0, str.length()-1) + "\n");
+                csv.write(str.substring(0, str.length() - 1) + "\n");
                 str = "";
             }
 
@@ -343,7 +346,33 @@ public class Visualizador extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
+    public static boolean exportToJSON(JTable tableToExport, String pathToExportTo) {
+        File file = new File(pathToExportTo);
+        
+        try ( FileWriter fw = new FileWriter(pathToExportTo)) {
+            boolean firstRow = true;
+            fw.write("[");
+            for (int i = 0; i < tableToExport.getRowCount(); i++) {
+                JSONObject jsonObj = new JSONObject();
+                for (int j = 0; j < tableToExport.getColumnCount(); j++) {
+                    Object value = tableToExport.getValueAt(i, j);
+                    String columnName = tableToExport.getColumnName(j);
+                    System.out.println(columnName);
+                    jsonObj.put(columnName, value);
+                    System.out.println(jsonObj.toString());
+                }
+                fw.write(firstRow ? jsonObj.toString() : (",\n" + jsonObj.toString()));
+                firstRow = false;
+                System.out.println(jsonObj.toString()+"\n");
+            }
+            fw.write("]");
+        } catch (IOException e1) {
+            System.out.println(e1);
+        }
+        return true;
+    }
+
     private void jRadioButton1CSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1CSVActionPerformed
         this.jRadioButton1.setSelected(true);
         this.jRadioButton2.setSelected(false);
