@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
+import org.json.JSONObject;
 
 /**
  * Esta classe permite visualizar a estrutura do banco de dados através de uma
@@ -316,7 +317,9 @@ public class Visualizador extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Dados exportados com sucesso para um arquivo CSV.", "Dados exportados", JOptionPane.PLAIN_MESSAGE);
             }
         } else if (this.jRadioButtonJSON.isSelected()) {
+          if(exportToJSON(tabela, ".\\tabela.json");){
             JOptionPane.showMessageDialog(null, "Dados exportados com sucesso para um arquivo JSON.", "Dados exportados", JOptionPane.PLAIN_MESSAGE);
+          }
         }
     }//GEN-LAST:event_jButtonExportarExportarActionPerformed
 
@@ -354,6 +357,37 @@ public class Visualizador extends javax.swing.JFrame {
         }
         return false;
     }
+
+    public static boolean exportToJSON(JTable tableToExport, String pathToExportTo) {
+        File file = new File(pathToExportTo);
+        
+        try ( FileWriter fw = new FileWriter(pathToExportTo)) {
+            boolean firstRow = true;
+            fw.write("[");
+            for (int i = 0; i < tableToExport.getRowCount(); i++) {
+                JSONObject jsonObj = new JSONObject();
+                for (int j = 0; j < tableToExport.getColumnCount(); j++) {
+                    Object value = tableToExport.getValueAt(i, j);
+                    String columnName = tableToExport.getColumnName(j);
+                    System.out.println(columnName);
+                    jsonObj.put(columnName, value);
+                    System.out.println(jsonObj.toString());
+                }
+                fw.write(firstRow ? jsonObj.toString() : (",\n" + jsonObj.toString()));
+                firstRow = false;
+                System.out.println(jsonObj.toString()+"\n");
+            }
+            fw.write("]");
+        } catch (IOException e1) {
+            System.out.println(e1);
+        }
+        return true;
+    }
+
+    private void jRadioButton1CSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1CSVActionPerformed
+        this.jRadioButton1.setSelected(true);
+        this.jRadioButton2.setSelected(false);
+    }//GEN-LAST:event_jRadioButton1CSVActionPerformed
 
     private void jRadioButtonCSVCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonCSVCSVActionPerformed
         this.jRadioButtonCSV.setSelected(true);
