@@ -5,7 +5,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
-import java.util.ArrayList;
 import javax.swing.JTable;
 
 /**
@@ -19,13 +18,12 @@ public class Consulta {
     private int limiteLinhas;
 
     public Consulta() {
-        this.limiteLinhas = 10;
+        this.limiteLinhas = 1000;
     }
 
-    public JTable Consulta(String query, Connection connection) {
-        String resultQuery = "";
-        String[] columnNames = null;
-        String[][] data = null;
+    public JTable geraTabelaConsulta(String query, Connection connection) {
+        String[] columnNames;
+        String[][] data;
 
         try {
             Statement resultados1 = connection.createStatement();

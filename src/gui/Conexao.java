@@ -155,8 +155,6 @@ public class Conexao extends javax.swing.JFrame {
                 this.jRadioButtonMySQL.isSelected()
         );
 
-        System.out.println("Conectado: " + bd.isActive());
-
         if (bd.isActive()){
             Visualizador vbd = new Visualizador(bd);
             vbd.setVisible(true);
