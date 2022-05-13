@@ -82,8 +82,6 @@ public class Visualizador extends javax.swing.JFrame {
     }
 
       public void atualizaLog(String str) {
-        System.out.println("AQQQUUIIII");
-        
         jTextPaneStatusQuery.setEditable(false);
         jTextPaneStatusQuery.setText(str);
     }

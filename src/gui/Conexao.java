@@ -1,6 +1,8 @@
 package gui;
 
 import db.BancoDados;
+import db.MySQL;
+import db.PostgreSQL;
 
 /**
  *
@@ -136,11 +138,17 @@ public class Conexao extends javax.swing.JFrame {
     private void jRadioButtonMySQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMySQLActionPerformed
         this.jRadioButtonMySQL.setSelected(true);
         this.jRadioButtonPostgresSQL.setSelected(false);
+        
+        jTextFieldUsuario.setText("root");
+        jTextFieldNomeBanco.setText("world");
     }//GEN-LAST:event_jRadioButtonMySQLActionPerformed
 
     private void jRadioButtonPostgresSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonPostgresSQLActionPerformed
         this.jRadioButtonPostgresSQL.setSelected(true);
         this.jRadioButtonMySQL.setSelected(false);
+        
+        jTextFieldUsuario.setText("postgres");
+        jTextFieldNomeBanco.setText("universidade");
     }//GEN-LAST:event_jRadioButtonPostgresSQLActionPerformed
 
     private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
@@ -149,11 +157,17 @@ public class Conexao extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     private void jButtonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConectarActionPerformed
-        BancoDados bd = new BancoDados(this.jTextFieldUsuario.getText(),
+        BancoDados bd;
+        
+        if(jRadioButtonMySQL.isSelected()){
+            bd = new MySQL(this.jTextFieldUsuario.getText(),
                 String.copyValueOf(this.jPasswordFieldSenha.getPassword()),
-                this.jTextFieldNomeBanco.getText(),
-                this.jRadioButtonMySQL.isSelected()
-        );
+                this.jTextFieldNomeBanco.getText());
+        }else{
+            bd = new PostgreSQL(this.jTextFieldUsuario.getText(),
+                String.copyValueOf(this.jPasswordFieldSenha.getPassword()),
+                this.jTextFieldNomeBanco.getText());
+        }
 
         if (bd.isActive()){
             Visualizador vbd = new Visualizador(bd);
