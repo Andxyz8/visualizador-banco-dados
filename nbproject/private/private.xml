@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>src/gui/Conexao.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>167</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/Dropbox/Programacao/GitHub/visualizador-banco-dados/InterfaceBD/src/interfacebd/Principal.java</file>
+            <file>file:/C:/Users/User/Dropbox/Programacao/GitHub/visualizador-banco-dados/src/gui/Conexao.java</file>
+            <file>file:/C:/Users/User/Dropbox/Programacao/GitHub/visualizador-banco-dados/src/bancodados/BancoDados.java</file>
+            <file>file:/C:/Users/User/Dropbox/Programacao/GitHub/visualizador-banco-dados/src/bancodados/Consulta.java</file>
+            <file>file:/C:/Users/User/Dropbox/Programacao/GitHub/visualizador-banco-dados/src/bancodados/MySQL.java</file>
+            <file>file:/C:/Users/User/Dropbox/Programacao/GitHub/visualizador-banco-dados/src/exportar/Exportador.java</file>
+            <file>file:/C:/Users/User/Dropbox/Programacao/GitHub/visualizador-banco-dados/src/gui/Visualizador.java</file>
+            <file>file:/C:/Users/User/Dropbox/Programacao/GitHub/visualizador-banco-dados/src/bancodados/PostgreSQL.java</file>
         </group>
     </open-files>
 </project-private>

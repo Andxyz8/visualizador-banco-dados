@@ -1,4 +1,4 @@
-package db;
+package bancodados;
 
 import gui.Visualizador;
 import java.sql.Connection;
@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
-import java.util.function.Function;
 import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -125,12 +124,10 @@ public abstract class BancoDados {
                 + "<b>SGBDR</b>: ";
         infos += nome_sgbdr + "<br>";
 
-        infos += "<b>Status Conexão</b>: ";
-        if (isActive()) {
-            infos += "<b style=\"color:green\">OK.</b>";
-        } else {
-            infos += "<b style=\"color:red\">ERRO.</b>";
-        }
+        infos += "<b>Status Conexão</b>: <b style=\"color:";
+        
+        infos += isActive() ? "green\">OK.</b>" : "red\">ERRO.</b>" ;
+
         return infos;
     }
 

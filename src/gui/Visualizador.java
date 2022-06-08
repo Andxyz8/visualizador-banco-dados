@@ -4,7 +4,8 @@
  */
 package gui;
 
-import db.BancoDados;
+import bancodados.BancoDados;
+import exportar.Exportador;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 public class Visualizador extends javax.swing.JFrame {
 
     private BancoDados banco;
+    private Exportador exportador;
     JTable tabela = new JTable();
 
     /**
@@ -40,6 +42,7 @@ public class Visualizador extends javax.swing.JFrame {
      */
     public Visualizador(BancoDados bd) {
         this();
+        this.exportador = new Exportador();
         this.banco = bd;
         setInfoBanco();
         setInfoConexao();
@@ -65,7 +68,7 @@ public class Visualizador extends javax.swing.JFrame {
     }
 
     /**
-     * Exibe as informações de conexão no JForm principal.
+     * Insere e exibe as informações de conexão no JForm principal.
      */
     private void setInfoConexao() {
         jTextPaneStatus.setEditable(false);
@@ -73,7 +76,8 @@ public class Visualizador extends javax.swing.JFrame {
     }
 
     /**
-     *
+     * Gera e exibe os dados da consulta na região de resultados das querys
+     * conforme uma tabela, respeitando o limite máximo de registros imposto.
      */
     private void geraTabelaConsulta(String query) {
         this.tabela = this.banco.gerarConsulta(query, this);
@@ -81,11 +85,16 @@ public class Visualizador extends javax.swing.JFrame {
         tabela.setFillsViewportHeight(true);
     }
 
-      public void atualizaLog(String str) {
+    /**
+     * Efetua a atualização do status de execução da query executada.
+     *
+     * @param str Informação a ser exibida no log da aplicação.
+     */
+    public void atualizaLog(String str) {
         jTextPaneStatusQuery.setEditable(false);
         jTextPaneStatusQuery.setText(str);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -284,12 +293,25 @@ public class Visualizador extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Ação executada quando o clique no botão Executar é efetuado. Em suma,
+     * executa a query de acordo com o banco de dados escolhido e, se não houver
+     * erros, retorna os registros na região de resultados, respeitando o limite
+     * de registros imposto.
+     *
+     * @param evt Objeto da classe ActionEvent relacionada ao evento do botão.
+     */
     private void jButtonExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExecutarActionPerformed
         String query = jTextAreaQuery.getText();
         geraTabelaConsulta(query);
-
     }//GEN-LAST:event_jButtonExecutarActionPerformed
 
+    /**
+     * Ação disparada pelo clique no botão que permite alterar o limite de
+     * registros exibidos como resultado de uma consulta.
+     *
+     * @param evt Objeto da classe ActionEvent relacionada ao evento do botão.
+     */
     private void jButtonLimiteRowsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimiteRowsActionPerformed
         int limiteRows = 0;
         boolean erro = false;
@@ -313,85 +335,44 @@ public class Visualizador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonLimiteRowsActionPerformed
 
+    /**
+     * Ações que são disparadas após o clique no botão Exportar.
+     *
+     * @param evt Objeto da classe ActionEvent relacionada ao evento do botão.
+     */
     private void jButtonExportarExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExportarExportarActionPerformed
         if ((!this.jRadioButtonCSV.isSelected()) && (!this.jRadioButtonJSON.isSelected())) {
             JOptionPane.showMessageDialog(null, "Nenhum formato selecionado!", "ERRO!", JOptionPane.ERROR_MESSAGE);
         } else if (this.jRadioButtonCSV.isSelected()) {
-            if (exportToCSV(tabela, ".\\tabela.csv")) {
+            this.exportador.setDadosExportar(tabela, ".\\tabela.csv");
+            if (this.exportador.exportarCSV()) {
                 JOptionPane.showMessageDialog(null, "Dados exportados com sucesso para um arquivo CSV.", "Dados exportados", JOptionPane.PLAIN_MESSAGE);
             }
         } else if (this.jRadioButtonJSON.isSelected()) {
-            if (exportToJSON(tabela, ".\\tabela.json")) {
+            this.exportador.setDadosExportar(tabela, ".\\tabela.json");
+            if (this.exportador.exportarJSON()) {
                 JOptionPane.showMessageDialog(null, "Dados exportados com sucesso para um arquivo JSON.", "Dados exportados", JOptionPane.PLAIN_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButtonExportarExportarActionPerformed
 
-    public static boolean exportToCSV(JTable tableToExport, String pathToExportTo) {
-        try {
-            String str = "";
-
-            TableModel model = tableToExport.getModel();
-            FileWriter csv = new FileWriter(new File(pathToExportTo));
-
-            for (int i = 0; i < model.getColumnCount(); i++) {
-                //csv.write(model.getColumnName(i) + ",");
-                str += (model.getColumnName(i) + ",");
-            }
-
-            //csv.write("\n");
-            csv.write(str.substring(0, str.length() - 1) + "\n");
-            str = "";
-
-            for (int i = 0; i < model.getRowCount(); i++) {
-                for (int j = 0; j < model.getColumnCount(); j++) {
-                    //csv.write(model.getValueAt(i, j).toString() + ",");
-                    str += (model.getValueAt(i, j).toString() + ",");
-                }
-                //csv.write("\n");
-                csv.write(str.substring(0, str.length() - 1) + "\n");
-                str = "";
-            }
-
-            csv.close();
-            return true;
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return false;
-    }
-
-    public static boolean exportToJSON(JTable tableToExport, String pathToExportTo) {
-        File file = new File(pathToExportTo);
-
-        try ( FileWriter fw = new FileWriter(pathToExportTo)) {
-            boolean firstRow = true;
-            fw.write("[");
-            for (int i = 0; i < tableToExport.getRowCount(); i++) {
-                JSONObject jsonObj = new JSONObject();
-                for (int j = 0; j < tableToExport.getColumnCount(); j++) {
-                    Object value = tableToExport.getValueAt(i, j);
-                    String columnName = tableToExport.getColumnName(j);
-
-                    jsonObj.put(columnName, value);
-
-                }
-                fw.write(firstRow ? jsonObj.toString() : (",\n" + jsonObj.toString()));
-                firstRow = false;
-
-            }
-            fw.write("]");
-        } catch (IOException e1) {
-            System.out.println(e1);
-        }
-        return true;
-    }
-
+    /**
+     * Alterna o estado do botão para selecionado e retira a seleção da outra
+     * opção de exportação dos resultados, caso selecionada.
+     *
+     * @param evt Objeto da classe ActionEvent relacionada ao evento do botão.
+     */
     private void jRadioButtonJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonJSONActionPerformed
         this.jRadioButtonJSON.setSelected(true);
         this.jRadioButtonCSV.setSelected(false);
     }//GEN-LAST:event_jRadioButtonJSONActionPerformed
 
+    /**
+     * Alterna o estado do botão para selecionado e retira a seleção da outra
+     * opção de exportação dos resultados, caso selecionada.
+     *
+     * @param evt Objeto da classe ActionEvent relacionada ao evento do botão.
+     */
     private void jRadioButtonCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonCSVActionPerformed
         this.jRadioButtonCSV.setSelected(true);
         this.jRadioButtonJSON.setSelected(false);
