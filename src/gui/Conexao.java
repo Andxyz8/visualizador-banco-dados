@@ -1,8 +1,8 @@
 package gui;
 
-import db.BancoDados;
-import db.MySQL;
-import db.PostgreSQL;
+import bancodados.BancoDados;
+import bancodados.MySQL;
+import bancodados.PostgreSQL;
 
 /**
  *
